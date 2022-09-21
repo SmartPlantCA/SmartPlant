@@ -1,13 +1,13 @@
 import cors from "cors";
 import express from "express";
 
-/*var corsOptions = {
+var corsOptions = {
 	origin: ["https://smartplant.mqrco.xyz"],
-};*/
+};
 
 const app = express();
 
-//app.use(cors(corsOptions));
+app.use(cors(corsOptions));
 app.use(express.json());
 
 app.get("/", (req, res) => {
