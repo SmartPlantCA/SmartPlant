@@ -1,16 +1,17 @@
 import { Route, Routes } from "react-router-dom";
 
-import Header from "./layouts/Header";
+import Navbar from "./layouts/Navbar";
+//import styles from "./css/index.css";
 
+import Error from "./pages/Error";
 import Home from "./pages/Home";
 import Plants from "./pages/Plants";
 import SelectedPlant from "./pages/SelectedPlant";
-import Error from "./pages/Error";
 
 function App() {
 	return (
 		<div>
-			<Header />
+			<Navbar />
 
 			<Routes>
 				<Route path="/" element={<Home />} />
