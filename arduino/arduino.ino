@@ -10,6 +10,7 @@
 
 WiFiClient wifiClient;
 PubSubClient client(wifiClient);
+unsigned long lastHumidityPush;
 
 void setup_wifi() {
   WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
@@ -44,11 +45,10 @@ void reconnect() {
 }
 
 void callback(char* topic, byte* payload, unsigned int length) {
-  Serial.println((char)payload[0]);
   if ((char)payload[0] == '1') {
-    digitalWrite(4, HIGH);
-  } else {
     digitalWrite(4, LOW);
+  } else {
+    digitalWrite(4, HIGH);
   }
 }
 
@@ -70,10 +70,12 @@ void loop() {
   }
   client.loop();
 
-  int soilMoistureValue = analogRead(A0);
-  int percent = map(soilMoistureValue, 680, 280, 0, 100);
-
-  client.publish("plant01/humidity", String(percent).c_str());
-  Serial.println(percent);
-  delay(500);
+  if(millis() - lastHumidityPush >= 10000) { 
+    lastHumidityPush = millis();
+    int soilMoistureValue = analogRead(A0);
+    int percent = map(soilMoistureValue, 680, 280, 0, 100);
+    client.publish("plant01/humidity", String(percent).c_str());
+  }
+  
+  delay(200);
 }
