@@ -1,6 +1,7 @@
 
 #include <ESP8266WiFi.h>
 #include <PubSubClient.h>
+#include <ArduinoUniqueID.h>
 
 #define WIFI_SSID "AP_B536"
 #define WIFI_PASSWORD "techinfo"
@@ -11,34 +12,31 @@
 WiFiClient wifiClient;
 PubSubClient client(wifiClient);
 unsigned long lastHumidityPush;
+String ID = (char *) UniqueID;
 
 void setup_wifi() {
   WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
   
-  Serial.print("Connecting");
   while (WiFi.status() != WL_CONNECTED) {
     delay(500);
-    Serial.print(".");
   }
 
-  Serial.print("Connected, IP address: ");
-  Serial.println(WiFi.localIP());
+  Serial.println("WIFI - Connected");
+  Serial.println("IP : ");
+  Serial.print(WiFi.localIP());
 }
 
 
 void reconnect() {
   while (!client.connected()) {
-    Serial.print("MQTT connection...");
-
-    String clientId = "plant01";
-    clientId += String(random(0xffff), HEX);
-
+    String clientId = ID + String(random(0xffff), HEX);
+    
     if (client.connect(clientId.c_str())) {
-      Serial.println("connected");
+      Serial.println("MQTT - Connected");
 
-      client.subscribe("plant01/pump");
+      String channel = "smartplant/" + ID + "/pump";
+      client.subscribe(channel.c_str());
     } else {
-      Serial.println("Try again in 5 seconds");
       delay(5000);
     }
   }
@@ -74,7 +72,9 @@ void loop() {
     lastHumidityPush = millis();
     int soilMoistureValue = analogRead(A0);
     int percent = map(soilMoistureValue, 680, 280, 0, 100);
-    client.publish("plant01/humidity", String(percent).c_str());
+
+    String channel = "smartplant/" + ID + "/humidity";
+    client.publish(channel.c_str(), String(percent).c_str());
   }
   
   delay(200);
