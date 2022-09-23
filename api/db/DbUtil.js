@@ -88,5 +88,25 @@ const insertHumidity = async (id, value) => {
 	console.log(`ID: ${id} - Humdity: ${value}`);
 };
 
+const getPlantsToWater = async () => {
+	return await new Promise((resolve, reject) => {
+		db.all(
+			"SELECT id, name, description FROM plants WHERE id IN (SELECT id FROM humidity WHERE timestamp > ? AND value < 50 GROUP BY id)",
+			Date.now() - 1000 * 60, // Dernière requête doit être de moins d'une minute
+			(err, rows) => {
+				if (err) reject(err);
+				else resolve(rows);
+			}
+		);
+	});
+};
+
 setupDb();
-export { setupDb, getPlants, getPlant, updatePlantInfo, insertHumidity };
+export {
+	setupDb,
+	getPlants,
+	getPlant,
+	updatePlantInfo,
+	insertHumidity,
+	getPlantsToWater,
+};

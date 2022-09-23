@@ -2,6 +2,7 @@ import cors from "cors";
 import express from "express";
 import mqtt from "mqtt";
 import { insertHumidity } from "./db/DbUtil.js";
+import { lookupPlants } from "./tasks/WateringTask.js";
 
 import plantsRouter from "./routes/plants.js";
 
@@ -29,5 +30,9 @@ mqttClient.on("message", (topic, message) => {
 
 	insertHumidity(idPlant, humidity);
 });
+
+setInterval(() => {
+	lookupPlants(mqttClient);
+}, 1000 * 60); // every minute
 
 app.listen(7428, () => console.log("SmartPlant API is running on port 7428"));
