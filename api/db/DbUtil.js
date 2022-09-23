@@ -7,7 +7,10 @@ const setupDb = () => {
 			"CREATE TABLE IF NOT EXISTS plants (id TEXT PRIMARY KEY, name TEXT, description TEXT)"
 		);
 		db.run(
-			"CREATE TABLE IF NOT EXISTS humidity (id INTEGER, timestamp INTEGER, value INTEGER, FOREIGN KEY(id) REFERENCES plants(id))"
+			"CREATE TABLE IF NOT EXISTS humidity (id INTEGER, timestamp INTEGER UNIQUE, value INTEGER, FOREIGN KEY(id) REFERENCES plants(id))"
+		);
+		db.run(
+			"CREATE TABLE IF NOT EXISTS plantsSettings (id TEXT PRIMARY KEY, neededHumidity INTEGER, humidityCheckup INTEGER, FOREIGN KEY(id) REFERENCES plants(id))"
 		);
 	});
 };
@@ -29,10 +32,7 @@ const getPlant = async (id) => {
 		});
 	});
 
-	if (plant === undefined) {
-		res.sendStatus(404);
-		return;
-	}
+	if (plant === undefined) return plant;
 
 	let history = await new Promise((resolve, reject) => {
 		db.all(
@@ -75,6 +75,13 @@ const insertHumidity = async (id, value) => {
 		db.run(
 			"INSERT INTO plants (id) VALUES (?) ON CONFLICT(id) DO NOTHING",
 			idPlant
+		);
+
+		db.run(
+			"INSERT INTO plantsSettings (id, neededHumidity, humidityCheckup) VALUES (?, ?, ?) ON CONFLICT(id) DO NOTHING",
+			idPlant,
+			75,
+			1
 		);
 
 		db.run(

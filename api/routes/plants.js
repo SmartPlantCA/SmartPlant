@@ -5,7 +5,9 @@ const router = express.Router();
 
 router.get("/", async (req, res) => {
 	let plants = await getPlants();
-	res.json(plants);
+
+	if (plants === undefined) res.sendStatus(400);
+	else res.json(plants);
 });
 
 router.post("/:id", async (req, res) => {
