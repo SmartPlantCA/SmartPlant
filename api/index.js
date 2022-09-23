@@ -1,7 +1,6 @@
 import cors from "cors";
 import express from "express";
 import mqtt from "mqtt";
-import { setupDb } from "./db/DbUtil.js";
 import { insertHumidity } from "./db/DbUtil.js";
 
 import plantsRouter from "./routes/plants.js";
