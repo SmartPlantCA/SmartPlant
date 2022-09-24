@@ -1,8 +1,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-@import url("https://fonts.googleapis.com/css2?family=Nunito:wght@700&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Varela+Round&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Signika+Negative:wght@500&display=swap");
+
 * {
 	box-sizing: border-box;
 	margin: 0;

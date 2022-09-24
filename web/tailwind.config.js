@@ -8,7 +8,7 @@ module.exports = {
 				secondgray: "#eaeced",
 			},
 			fontFamily: {
-				reem: ["Varela Round", "sans-serif"],
+				reem: ["Signika Negative", "Varela Round", "sans-serif"],
 			},
 		},
 	},
