@@ -12,7 +12,7 @@
 WiFiClient wifiClient;
 PubSubClient client(wifiClient);
 unsigned long lastHumidityPush;
-String ID = (char *) UniqueID;
+String ID = "";
 
 void setup_wifi() {
   WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
@@ -53,6 +53,12 @@ void callback(char* topic, byte* payload, unsigned int length) {
 
 void setup() {
   Serial.begin(9600);
+
+  for (size_t i = 0; i < UniqueIDsize; i++)
+  {
+    ID += String(UniqueID[i]);
+  }
+
   setup_wifi();
 
   client.setServer(MQTT_SERVER, MQTT_SERVER_PORT);
@@ -76,6 +82,6 @@ void loop() {
     String channel = "smartplant/" + ID + "/humidity";
     client.publish(channel.c_str(), String(percent).c_str());
   }
-  
-  delay(200);
+
+  delay(250);
 }

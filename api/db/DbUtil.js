@@ -70,7 +70,7 @@ const updatePlantInfo = async (id, name, description) => {
 	return 200;
 };
 
-const insertHumidity = async (id, value) => {
+const insertHumidity = async (idPlant, humidity) => {
 	db.serialize(() => {
 		db.run(
 			"INSERT INTO plants (id) VALUES (?) ON CONFLICT(id) DO NOTHING",
@@ -92,7 +92,7 @@ const insertHumidity = async (id, value) => {
 		);
 	});
 
-	console.log(`ID: ${id} - Humdity: ${value}`);
+	console.log(`ID: ${idPlant} - Humdity: ${humidity}`);
 };
 
 const getPlantsToWater = async () => {

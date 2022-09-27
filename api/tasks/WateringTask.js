@@ -1,11 +1,14 @@
 import { getPlantsToWater } from "../db/DbUtil.js";
 
 const lookupPlants = async (mqttClient) => {
-	let plants = getPlantsToWater();
+	let plants = await getPlantsToWater();
 
-	if (plants.length === 0) return;
+	if (!plants) return;
 
-	console.log("Watering plants : ", plants);
+	console.log(
+		"Watering plants : ",
+		plants.map((plant) => plant.id)
+	);
 
 	for (let plant of plants)
 		mqttClient.publish(`smartplant/${plant.id}/water`, "1");
