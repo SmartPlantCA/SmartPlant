@@ -44,9 +44,9 @@ void reconnect() {
 
 void callback(char* topic, byte* payload, unsigned int length) {
   if ((char)payload[0] == '1') {
-    digitalWrite(4, LOW);
+    digitalWrite(2, LOW);
   } else {
-    digitalWrite(4, HIGH);
+    digitalWrite(2, HIGH);
   }
 }
 
@@ -64,7 +64,9 @@ void setup() {
   client.setServer(MQTT_SERVER, MQTT_SERVER_PORT);
   client.setCallback(callback);
   
-  pinMode(4, OUTPUT); // MOTEUR
+  digitalWrite(2, HIGH);
+  pinMode(2, OUTPUT); // MOTEUR
+  
   pinMode(A0, INPUT); // HUMIDITY
 }
 

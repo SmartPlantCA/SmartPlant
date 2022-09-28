@@ -11,12 +11,16 @@ const lookupPlants = async (mqttClient) => {
 	);
 
 	for (let plant of plants)
-		mqttClient.publish(`smartplant/${plant.id}/water`, "1");
+		mqttClient.publish(`smartplant/${plant.id}/pump`, "1", {
+			retain: true,
+		});
 
 	await new Promise((resolve) => setTimeout(resolve, 15 * 1000)); // wait 15 seconds
 
 	for (let plant of plants)
-		mqttClient.publish(`smartplant/${plant.id}/water`, "0");
+		mqttClient.publish(`smartplant/${plant.id}/pump`, "0", {
+			retain: true,
+		});
 };
 
 export { lookupPlants };
