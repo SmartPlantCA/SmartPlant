@@ -2,8 +2,11 @@ import { faCircleInfo, faHouse } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { createRef, useEffect, useState } from "react";
 import smartplant from "../images/smartplant.png";
+import { useNavigate } from "react-router-dom";
 
 function Navbar() {
+	let navigate = useNavigate();
+
 	const [time, setTime] = useState(0);
 	const logo = createRef();
 	const [interval, setIntervalValue] = useState(null);
@@ -22,7 +25,6 @@ function Navbar() {
 	}
 
 	useEffect(() => {
-		console.log(time);
 		if (time >= 2 && time < 4) {
 			logo.current.classList.remove("logo");
 			logo.current.classList.add("logo2");
@@ -57,7 +59,10 @@ function Navbar() {
 					onMouseLeave={stopTimer}
 				></img>
 				<div className="flex-auto flex flex-col items-center justify-center">
-					<div className="bg-green m-5 p-5 w-16 h-16 flex flex-col items-center justify-center rounded-2xl text-white shadow-md navFocus hover:cursor-pointer">
+					<div
+						className="bg-green m-5 p-5 w-16 h-16 flex flex-col items-center justify-center rounded-2xl text-white shadow-md navFocus hover:cursor-pointer"
+						onClick={() => navigate("/")}
+					>
 						<FontAwesomeIcon icon={faHouse} size="lg" />
 					</div>
 					<div className="m-5 p-5 text-gray-300">

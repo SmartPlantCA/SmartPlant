@@ -45,7 +45,7 @@ const getPlants = async () => {
 			);
 		});
 
-		plant.lastWatering = lastWatering.timestamp;
+		plant.lastWatering = lastWatering?.timestamp || 0;
 
 		let lastHumidty = await new Promise((resolve, reject) => {
 			db.get(
@@ -58,7 +58,7 @@ const getPlants = async () => {
 			);
 		});
 
-		plant.lastHumidity = lastHumidty.value;
+		plant.lastHumidity = lastHumidty.value || 0;
 	}
 
 	return plantList;
@@ -103,7 +103,7 @@ const getPlant = async (id) => {
 
 	let humidityHistory = await new Promise((resolve, reject) => {
 		db.all(
-			"SELECT timestamp, value FROM humidity WHERE id = ? ORDER BY timestamp DESC",
+			"SELECT timestamp, value FROM humidity WHERE id = ? ORDER BY timestamp DESC LIMIT 4320",
 			id,
 			(err, rows) => {
 				if (err) reject(err);
@@ -112,11 +112,12 @@ const getPlant = async (id) => {
 		);
 	});
 
+	humidityHistory.reverse();
 	plant.humidityHistory = humidityHistory;
 
 	let wateringHistory = await new Promise((resolve, reject) => {
 		db.all(
-			"SELECT timestamp, length FROM watering WHERE id = ? ORDER BY timestamp DESC",
+			"SELECT timestamp, length FROM watering WHERE id = ? ORDER BY timestamp DESC LIMIT 4320",
 			id,
 			(err, rows) => {
 				if (err) reject(err);
@@ -125,6 +126,7 @@ const getPlant = async (id) => {
 		);
 	});
 
+	wateringHistory.reverse();
 	plant.wateringHistory = wateringHistory;
 
 	return plant;
@@ -192,7 +194,7 @@ const updatePlantSettings = async (id, humiditySettings, intervalSettings) => {
 	return 200;
 };
 
-const insertHumidity = async (idPlant, humidity) => {
+const insertHumidity = async (idPlant, humidity, timestamp) => {
 	db.serialize(() => {
 		db.run(
 			"INSERT INTO plants (id) VALUES (?) ON CONFLICT(id) DO NOTHING",
@@ -218,7 +220,7 @@ const insertHumidity = async (idPlant, humidity) => {
 		db.run(
 			"INSERT INTO humidity (id, timestamp, value) VALUES (?, ?, ?)",
 			idPlant,
-			Date.now(),
+			timestamp || Date.now(),
 			humidity
 		);
 	});
@@ -254,7 +256,7 @@ const getPlantsToWater = async () => {
 		if (humidity === undefined) continue;
 
 		if (humidity.value < plant.humidity) {
-			let length = 1000 * 30;
+			let length = 1000 * 15;
 
 			db.run(
 				"INSERT INTO watering (id, timestamp, length) VALUES (?, ?, ?)",

@@ -11,7 +11,7 @@ const app = express();
 
 app.use(
 	cors({
-		origin: ["https://smartplant.mqrco.xyz"],
+		origin: ["https://smartplant.mqrco.xyz", "http://localhost:3000"],
 	})
 );
 app.use(express.json());
@@ -33,6 +33,30 @@ mqttClient.on("message", (topic, message) => {
 
 setInterval(() => {
 	lookupPlants(mqttClient);
-}, 1000 * 60); // every minute
+}, 1000 * 60 * 5); // every 5 minute
+
+/*const testData = () => {
+	let idPlant = "TEST";
+	let timestamp = new Date().setDate(new Date().getDate() - 7);
+
+	let s = 0;
+
+	while (s != 180) {
+		var y = Math.sin((s * Math.PI) / 180);
+		let b = 0;
+		while (b != 10) {
+			insertHumidity(idPlant, Math.floor(y * 100), timestamp);
+			timestamp += 1000 * 60 * 1;
+			b++;
+		}
+
+		timestamp += 1000 * 60 * 1;
+		insertHumidity(idPlant, Math.floor(y * 100), timestamp);
+
+		s++;
+	}
+};
+
+testData();*/
 
 app.listen(7428, () => console.log("SmartPlant API is running on port 7428"));
