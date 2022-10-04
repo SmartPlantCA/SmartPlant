@@ -74,6 +74,33 @@ const getPlant = async (id) => {
 
 	if (plant === undefined) return plant;
 
+	let humiditySettings = await new Promise((resolve, reject) => {
+		db.get(
+			"SELECT humidity, enabled FROM humidityWatering WHERE id = ?",
+			id,
+			(err, row) => {
+				if (err) reject(err);
+				else resolve(row);
+			}
+		);
+	});
+
+	let intervalSettings = await new Promise((resolve, reject) => {
+		db.get(
+			"SELECT firstWatering, interval, length, enabled FROM intervalWatering WHERE id = ?",
+			id,
+			(err, row) => {
+				if (err) reject(err);
+				else resolve(row);
+			}
+		);
+	});
+
+	plant.settings = {
+		humidity: humiditySettings,
+		interval: intervalSettings,
+	};
+
 	let humidityHistory = await new Promise((resolve, reject) => {
 		db.all(
 			"SELECT timestamp, value FROM humidity WHERE id = ? ORDER BY timestamp DESC",
@@ -114,6 +141,53 @@ const updatePlantInfo = async (id, name) => {
 	if (plant === undefined) return 404;
 
 	db.run("UPDATE plants SET name = ? WHERE id = ?", name, id);
+
+	return 200;
+};
+
+const updatePlantSettings = async (id, humiditySettings, intervalSettings) => {
+	let plant = await new Promise((resolve, reject) => {
+		db.get("SELECT * FROM plants WHERE id = ?", id, (err, row) => {
+			if (err) reject(err);
+			else resolve(row);
+		});
+	});
+
+	if (plant === undefined) return 404;
+
+	if (
+		humiditySettings === undefined ||
+		humiditySettings.humidity === undefined ||
+		!Number.isInteger(humiditySettings.humidity) ||
+		humiditySettings.enabled === undefined ||
+		(humiditySettings.enabled !== 0 && humiditySettings.enabled !== 1) ||
+		intervalSettings === undefined ||
+		intervalSettings.firstWatering === undefined ||
+		!Number.isInteger(intervalSettings.firstWatering) ||
+		intervalSettings.interval === undefined ||
+		!Number.isInteger(intervalSettings.interval) ||
+		intervalSettings.length === undefined ||
+		!Number.isInteger(intervalSettings.length) ||
+		intervalSettings.enabled === undefined ||
+		(intervalSettings.enabled !== 0 && intervalSettings.enabled !== 1)
+	)
+		return 400;
+
+	db.run(
+		"INSERT OR REPLACE INTO humidityWatering (id, humidity, enabled) VALUES (?, ?, ?)",
+		id,
+		humiditySettings.humidity,
+		humiditySettings.enabled
+	);
+
+	db.run(
+		"INSERT OR REPLACE INTO intervalWatering (id, firstWatering, interval, length, enabled) VALUES (?, ?, ?, ?, ?)",
+		id,
+		intervalSettings.firstWatering,
+		intervalSettings.interval,
+		intervalSettings.length,
+		intervalSettings.enabled
+	);
 
 	return 200;
 };
@@ -244,4 +318,5 @@ export {
 	updatePlantInfo,
 	insertHumidity,
 	getPlantsToWater,
+	updatePlantSettings,
 };
