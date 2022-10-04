@@ -1,3 +1,14 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@import url("https://fonts.googleapis.com/css2?family=Varela+Round&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Signika+Negative:wght@500&display=swap");
+
+* {
+	box-sizing: border-box;
+	margin: 0;
+}
+
+#test {
+	height: calc(100vh - 1.5rem);
+}

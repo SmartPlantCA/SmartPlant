@@ -1,27 +1,38 @@
 import cors from "cors";
 import express from "express";
 import mqtt from "mqtt";
-import sqlite3 from "sqlite3";
-var corsOptions = {
-	origin: ["https://smartplant.mqrco.xyz"],
-};
+import { insertHumidity } from "./db/DbUtil.js";
+import { lookupPlants } from "./tasks/WateringTask.js";
 
-const mqttClient = mqtt.connect("mqtt://broker.hivemq.com:1883");
-mqttClient.subscribe("plant01/humidity");
-const sqlite = sqlite3.verbose();
-const db = new sqlite.Database("plant.db");
+import plantsRouter from "./routes/plants.js";
 
-mqttClient.on("message", (topic, message) => {
-	console.log("Received message: " + message.toString() + " on topic: " + topic);
-});
-
+/* Setup EXPRESS-JS */
 const app = express();
 
-app.use(cors(corsOptions));
+app.use(
+	cors({
+		origin: ["https://smartplant.mqrco.xyz"],
+	})
+);
 app.use(express.json());
-
+app.use("/plants", plantsRouter);
 app.get("/", (req, res) => {
-	res.send(".");
+	res.redirect("https://smartplant.mqrco.xyz");
 });
+
+/* Setup MQTT */
+const mqttClient = mqtt.connect("mqtt://broker.hivemq.com:1883");
+mqttClient.subscribe("smartplant/+/humidity");
+
+mqttClient.on("message", (topic, message) => {
+	const idPlant = topic.split("/")[1];
+	const humidity = parseInt(message.toString());
+
+	insertHumidity(idPlant, humidity);
+});
+
+setInterval(() => {
+	lookupPlants(mqttClient);
+}, 1000 * 60); // every minute
 
 app.listen(7428, () => console.log("SmartPlant API is running on port 7428"));
