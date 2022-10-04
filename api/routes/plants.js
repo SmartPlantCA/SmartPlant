@@ -10,20 +10,19 @@ router.get("/", async (req, res) => {
 	else res.json(plants);
 });
 
-router.post("/:id", async (req, res) => {
-	const id = req.params.id;
-	const name = req.body.name;
-	const description = req.body.description;
-
-	let resultCode = await updatePlantInfo(id, name, description);
-	res.sendStatus(resultCode);
-});
-
 router.get("/:id", async (req, res) => {
 	const id = req.params.id;
 
 	let plant = await getPlant(id);
 	res.json(plant);
+});
+
+router.post("/:id", async (req, res) => {
+	const id = req.params.id;
+	const name = req.body.name;
+
+	let resultCode = await updatePlantInfo(id, name);
+	res.sendStatus(resultCode);
 });
 
 export default router;
