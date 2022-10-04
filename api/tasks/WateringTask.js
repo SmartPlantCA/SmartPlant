@@ -3,7 +3,7 @@ import { getPlantsToWater } from "../db/DbUtil.js";
 const lookupPlants = async (mqttClient) => {
 	let plants = await getPlantsToWater();
 
-	if (!plants) return;
+	if (plants.length < 1) return;
 
 	console.log("Watering plants : ", plants);
 
