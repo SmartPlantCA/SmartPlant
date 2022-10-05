@@ -12,6 +12,7 @@
 WiFiClient wifiClient;
 PubSubClient client(wifiClient);
 unsigned long lastHumidityPush;
+unsigned long lastPumpToggle;
 String ID = "";
 
 void setup_wifi()
@@ -53,6 +54,7 @@ void callback(char *topic, byte *payload, unsigned int length)
   if ((char)payload[0] == '1')
   {
     digitalWrite(2, LOW);
+    lastPumpToggle = millis();
   }
   else
   {
@@ -87,6 +89,12 @@ void loop()
     reconnect();
   }
   client.loop();
+
+  if(millis() - lastPumpToggle >= 60000) {
+    if(digitalRead(2) == LOW) {
+      digitalWrite(2, HIGH);
+    }
+  }
 
   if (millis() - lastHumidityPush >= 60000)
   {
