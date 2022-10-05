@@ -9,11 +9,13 @@ module.exports = {
 				darkergreen: "#3d915b",
 				darkestgreen: "#2f6f44",
 				secondgray: "#eaeced",
+				dark: "#1a1a1a",
 			},
 			fontFamily: {
 				reem: ["Signika Negative", "Varela Round", "sans-serif"],
 			},
 		},
 	},
+	darkMode: "class",
 	plugins: [],
 };

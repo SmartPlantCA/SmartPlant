@@ -12,15 +12,17 @@ function App() {
 	const [isFirst, setFirst] = useState(true);
 
 	return (
-		<div className="font-reem">
-			<Navbar />
+		<div className="dark:bg-dark p-3">
+			<div className="font-reem dark:text-white">
+				<Navbar />
 
-			<div className="ml-40 mt-3 w-auto bg-secondgray/50 mb-3 mr-3 rounded-3xl p-12 wholePage">
-				<Routes>
-					<Route path="/" element={<Home firstRender={isFirst} setFirst={setFirst} />} />
-					<Route path="/:plantId" element={<Plant />} />
-					<Route path="*" element={<Error />} />
-				</Routes>
+				<div className="ml-40 w-auto bg-secondgray/50 dark:bg-dark dark:border-2 dark:border-[#d1d1d1] rounded-3xl p-12 wholePage">
+					<Routes>
+						<Route path="/" element={<Home firstRender={isFirst} setFirst={setFirst} />} />
+						<Route path="/:plantId" element={<Plant />} />
+						<Route path="*" element={<Error />} />
+					</Routes>
+				</div>
 			</div>
 		</div>
 	);

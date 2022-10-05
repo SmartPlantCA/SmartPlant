@@ -1,7 +1,7 @@
+import { useEffect, useState } from "react";
 import Plants from "../layouts/Plants";
-import { useState, useEffect } from "react";
 
-function PlantsContext() {
+function PlantsContext({ setShowModal, setModal }) {
 	const [plants, setPlants] = useState([]);
 
 	useEffect(() => {
@@ -19,7 +19,11 @@ function PlantsContext() {
 		return () => clearInterval(interval);
 	}, []);
 
-	return <div>{plants && <Plants plants={plants} />}</div>;
+	return (
+		<div>
+			{plants && <Plants plants={plants} setShowModal={setShowModal} setModal={setModal} />}
+		</div>
+	);
 }
 
 export default PlantsContext;
