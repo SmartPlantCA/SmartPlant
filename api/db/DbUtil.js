@@ -171,6 +171,7 @@ const updatePlantSettings = async (id, humiditySettings, intervalSettings) => {
 		intervalSettings.interval < 300000 ||
 		intervalSettings.length === undefined ||
 		!Number.isInteger(intervalSettings.length) ||
+		intervalSettings.length > 60000 ||
 		intervalSettings.enabled === undefined ||
 		(intervalSettings.enabled !== 0 && intervalSettings.enabled !== 1)
 	)
