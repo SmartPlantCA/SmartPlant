@@ -14,7 +14,7 @@ function Home({ firstRender, setFirst }) {
 	return (
 		<div>
 			{firstRender ? <InitialTransition /> : null}
-			<h1 className="text-4xl font-bold tracking-wide">Overview</h1>
+			<h1 className="text-4xl font-bold tracking-wide">Overview test</h1>
 			<PlantsContext />
 		</div>
 	);
