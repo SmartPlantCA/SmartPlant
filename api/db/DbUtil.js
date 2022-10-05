@@ -168,8 +168,10 @@ const updatePlantSettings = async (id, humiditySettings, intervalSettings) => {
 		!Number.isInteger(intervalSettings.firstWatering) ||
 		intervalSettings.interval === undefined ||
 		!Number.isInteger(intervalSettings.interval) ||
+		intervalSettings.interval < 300000 ||
 		intervalSettings.length === undefined ||
 		!Number.isInteger(intervalSettings.length) ||
+		intervalSettings.length > 60000 ||
 		intervalSettings.enabled === undefined ||
 		(intervalSettings.enabled !== 0 && intervalSettings.enabled !== 1)
 	)
@@ -194,7 +196,7 @@ const updatePlantSettings = async (id, humiditySettings, intervalSettings) => {
 	return 200;
 };
 
-const insertHumidity = async (idPlant, humidity, timestamp) => {
+const insertHumidity = async (idPlant, humidity) => {
 	db.serialize(() => {
 		db.run(
 			"INSERT INTO plants (id) VALUES (?) ON CONFLICT(id) DO NOTHING",
@@ -220,7 +222,7 @@ const insertHumidity = async (idPlant, humidity, timestamp) => {
 		db.run(
 			"INSERT INTO humidity (id, timestamp, value) VALUES (?, ?, ?)",
 			idPlant,
-			timestamp || Date.now(),
+			Date.now(),
 			humidity
 		);
 	});
@@ -292,12 +294,10 @@ const getPlantsToWater = async () => {
 			);
 		});
 
-		let lastWateringTimestamp =
-			lastWatering === undefined
-				? plant.firstWatering
-				: lastWatering.timestamp;
-
-		if (Date.now() - lastWateringTimestamp > plant.interval) {
+		if (
+			lastWatering === undefined ||
+			Date.now() - lastWatering.timestamp > plant.interval
+		) {
 			db.run(
 				"INSERT INTO watering (id, timestamp, length) VALUES (?, ?, ?)",
 				plant.id,
