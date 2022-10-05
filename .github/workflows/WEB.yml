@@ -1,0 +1,19 @@
+name: WEB
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+  workflow_dispatch:
+
+
+jobs:
+  deploy_web:
+    runs-on: self-hosted
+
+    steps:
+      - run: npm i
+        working-directory: web
+      - run: npm run build
+        working-directory: web
