@@ -1,0 +1,22 @@
+name: WEB_APÏ
+
+on:
+    push:
+        branches: [master]
+    pull_request:
+        branches: [master]
+    workflow_dispatch:
+
+jobs:
+    deploy_web:
+        runs-on: self-hosted
+
+        steps:
+            - uses: actions/checkout@v3
+            - run: npm i
+              working-directory: api
+            - run: npm i
+              working-directory: web
+            - run: npm run build
+              working-directory: web
+            - run: pm2 restart API
