@@ -9,9 +9,10 @@ on:
 
 
 jobs:
-  deploy:
+  deploy_api:
     runs-on: self-hosted
 
     steps:
       - run: npm i
         working-directory: api
+      - run: pm2 restart API
