@@ -6,7 +6,7 @@ function PlantContext({ plantId }) {
 
 	useEffect(() => {
 		const loadPlant = () => {
-			fetch(`http://localhost:7428/plants/${plantId}`)
+			fetch(`${process.env.REACT_APP_API_URL}/plants/${plantId}`)
 				.then((res) => res.json())
 				.then((data) => setPlant(data));
 		};
@@ -20,7 +20,7 @@ function PlantContext({ plantId }) {
 	}, [plantId]);
 
 	const uploadSettings = () => {
-		fetch(`http://localhost:7428/plants/${plantId}/settings`, {
+		fetch(`${process.env.REACT_APP_API_URL}/plants/${plantId}/settings`, {
 			method: "PUT",
 			headers: {
 				"Content-Type": "application/json",

@@ -6,7 +6,7 @@ function PlantsContext() {
 
 	useEffect(() => {
 		const loadPlants = () => {
-			fetch("http://localhost:7428/plants")
+			fetch(`${process.env.REACT_APP_API_URL}/plants`)
 				.then((res) => res.json())
 				.then((data) => setPlants(data));
 		};
