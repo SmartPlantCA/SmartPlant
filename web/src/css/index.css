@@ -182,3 +182,14 @@
 		transform: translate(0);
 	}
 }
+
+@keyframes fading {
+	0% {
+		opacity: 1;
+		scale: 1;
+	}
+	100% {
+		opacity: 0;
+		scale: 0;
+	}
+}

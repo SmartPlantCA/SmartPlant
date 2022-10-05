@@ -6,6 +6,8 @@ module.exports = {
 			colors: {
 				green: "#50b774",
 				darkgreen: "#48a86a",
+				darkergreen: "#3d915b",
+				darkestgreen: "#2f6f44",
 				secondgray: "#eaeced",
 			},
 			fontFamily: {
