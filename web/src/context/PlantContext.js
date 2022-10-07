@@ -1,4 +1,4 @@
-import Plant from "./../layouts/Plant";
+import Plant from "../layouts/plant/Plant";
 import { useState, useEffect } from "react";
 
 function PlantContext({ plantId }) {
@@ -19,29 +19,28 @@ function PlantContext({ plantId }) {
 		return () => clearInterval(interval);
 	}, [plantId]);
 
-	const uploadSettings = () => {
-		fetch(`${process.env.REACT_APP_API_URL}/plants/${plantId}/settings`, {
-			method: "PUT",
-			headers: {
-				"Content-Type": "application/json",
-			},
-			body: JSON.stringify(plant.settings),
-		});
-	};
+	const updateSettings = async (settings) => {
+		let response = await fetch(
+			`${process.env.REACT_APP_API_URL}/plants/${plantId}/settings`,
+			{
+				method: "PUT",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify(settings),
+			}
+		);
 
-	const setSettings = (settings) => {
-		setPlant({ ...plant, settings });
+		if (response.status === 200) {
+			alert("Settings updated");
+		} else {
+			alert("Something went wrong");
+		}
 	};
 
 	return (
 		<div>
-			{plant && (
-				<Plant
-					plant={plant}
-					setSettings={setSettings}
-					uploadSettings={uploadSettings}
-				/>
-			)}
+			{plant && <Plant plant={plant} updateSettings={updateSettings} />}
 		</div>
 	);
 }

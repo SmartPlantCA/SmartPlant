@@ -2,8 +2,9 @@ import { AreaChart, Area, Tooltip, ResponsiveContainer } from "recharts";
 import { useState, useEffect } from "react";
 
 import moment from "moment";
+import PlantSettings from "./PlantSettings";
 
-function Plant({ plant, setSettings, uploadSettings }) {
+function Plant({ plant, updateSettings }) {
 	const [data, setData] = useState([]);
 
 	useEffect(() => {
@@ -29,13 +30,12 @@ function Plant({ plant, setSettings, uploadSettings }) {
 						data={data}
 						margin={{
 							top: 10,
-							right: 30,
-							left: 0,
-							bottom: 0,
+							right: 10,
+							left: 10,
+							bottom: 10,
 						}}
 					>
 						<Tooltip content={<CustomTooltip />} />
-
 						<Area
 							type="monotone"
 							dataKey="value"
@@ -46,6 +46,8 @@ function Plant({ plant, setSettings, uploadSettings }) {
 					</AreaChart>
 				</ResponsiveContainer>
 			</div>
+
+			<PlantSettings plant={plant} updateSettings={updateSettings} />
 		</div>
 	);
 }
