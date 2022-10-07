@@ -20,6 +20,14 @@ function PlantContext({ plantId }) {
 	}, [plantId]);
 
 	const updateSettings = async (settings) => {
+		setPlant({
+			...plant,
+			settings: {
+				...plant.settings,
+				...settings,
+			},
+		});
+
 		let response = await fetch(
 			`${process.env.REACT_APP_API_URL}/plants/${plantId}/settings`,
 			{

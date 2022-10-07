@@ -2,7 +2,7 @@ import { useEffect, useRef } from "react";
 import PlantAddCard from "./PlantAddCard";
 import PlantCard from "./PlantCard";
 
-function Plants({ plants, setShowModal, setModal }) {
+function Plants({ plants, addPlant }) {
 	let namedPlants = useRef(plants.filter((plant) => plant.name != null));
 	let unnamedPlants = useRef(plants.filter((plant) => plant.name == null));
 
@@ -20,8 +20,7 @@ function Plants({ plants, setShowModal, setModal }) {
 				<PlantAddCard
 					key={plant.id}
 					plant={plant}
-					setShowModal={setShowModal}
-					setModal={setModal}
+					addPlant={addPlant}
 				/>
 			))}
 		</div>
