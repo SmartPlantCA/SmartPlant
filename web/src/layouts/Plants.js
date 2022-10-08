@@ -1,26 +1,20 @@
-import { useEffect, useRef } from "react";
 import PlantAddCard from "./PlantAddCard";
 import PlantCard from "./PlantCard";
 
-function Plants({ plants, addPlant }) {
-	let namedPlants = useRef(plants.filter((plant) => plant.name != null));
-	let unnamedPlants = useRef(plants.filter((plant) => plant.name == null));
-
-	useEffect(() => {
-		namedPlants.current = plants.filter((plant) => plant.name != null);
-		unnamedPlants.current = plants.filter((plant) => plant.name == null);
-	}, [plants]);
+function Plants({ plants, registerPlant }) {
+	let namedPlants = plants.filter((plant) => plant.name != null);
+	let unnamedPlants = plants.filter((plant) => plant.name == null);
 
 	return (
 		<div className="flex flex-wrap">
-			{namedPlants.current.map((plant) => (
+			{namedPlants.map((plant) => (
 				<PlantCard key={plant.id} plant={plant} />
 			))}
-			{unnamedPlants.current.map((plant) => (
+			{unnamedPlants.map((plant) => (
 				<PlantAddCard
 					key={plant.id}
 					plant={plant}
-					addPlant={addPlant}
+					registerPlant={registerPlant}
 				/>
 			))}
 		</div>

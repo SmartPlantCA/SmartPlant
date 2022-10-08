@@ -8,11 +8,11 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Moment from "react-moment";
 import Modal from "../layouts/components/Global/Modal";
 import { useState } from "react";
-function PlantAddCard({ plant, addPlant }) {
+function PlantAddCard({ plant, registerPlant }) {
 	let [showModal, setShowModal] = useState(false);
 
 	const handleAdd = async (text) => {
-		await addPlant(plant.id, text);
+		await registerPlant(plant.id, text);
 		setShowModal(false);
 	};
 
@@ -20,9 +20,10 @@ function PlantAddCard({ plant, addPlant }) {
 		<>
 			<Modal
 				title="Add Plant"
+				message={"Please enter the name of your plant"}
 				onClick={handleAdd}
 				showModal={showModal}
-				onClose={() => setShowModal(false)}
+				onClose={setShowModal}
 			/>
 			<div
 				className="mt-10 rounded-lg w-96 h-36 bg-gray-400 text-white text-lg flex mx-2 shadow-lg zoom dark:border-2 dark:border-[#6680FF] dark:bg-inherit relative"

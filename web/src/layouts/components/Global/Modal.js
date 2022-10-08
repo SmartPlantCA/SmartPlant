@@ -6,7 +6,7 @@ function Modal({ title, message, showModal, onClick, onClose }) {
 	if (!showModal) return null;
 
 	return (
-		<div className="absolute top-0 left-0 right-0 bottom-0 m-auto w-2/5 h-2/5 border-2 border-red-500 p-3 rounded-lg">
+		<div className="absolute top-0 left-0 right-0 bottom-0 m-auto w-2/5 h-2/5 border-2 border-red-500 p-3 rounded-lg z-30 bg-white bg-opacity-90">
 			<div className="relative w-full h-full">
 				<h1 className="text-2xl text-center font-bold tracking-wide">
 					{title}
@@ -14,12 +14,12 @@ function Modal({ title, message, showModal, onClick, onClose }) {
 				<p className="text-center font-medium mt-16">{message}</p>
 				<input
 					type="text"
-					className="absolute bottom-24 w-3/5 mx-auto left-0 right-0 rounded-lg"
+					className="absolute bottom-24 w-3/5 mx-auto left-0 right-0 rounded-lg border-2 border-red-600"
 					value={text}
 					onChange={(e) => setText(e.target.value)}
 				/>
 				<button onClick={() => onClick(text)}>Send</button>
-				<button onClick={onClose}>Cancel</button>
+				<button onClick={() => onClose(false)}>Cancel</button>
 			</div>
 		</div>
 	);

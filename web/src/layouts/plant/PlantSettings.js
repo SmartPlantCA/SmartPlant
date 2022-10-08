@@ -1,62 +1,101 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-function PlantSettings({ plant, updateSettings }) {
-	const [settings, setSettings] = useState(plant.settings);
-	console.log(settings);
+function PlantSettings({ plantSettings, updateSettings }) {
+	const [settings, setSettings] = useState(plantSettings);
 
-	const handleChange = (e) => {
-		console.log(e.target.name);
-		console.log(e.target.value);
+	useEffect(() => {
+		if (settings === undefined) setSettings(plantSettings);
+	}, [plantSettings, settings]);
 
+	const handleChange = (type, target, value) => {
 		setSettings({
 			...settings,
-			[e.target.name]: e.target.value,
+			[type]: {
+				...settings[type],
+				[target]: value,
+			},
 		});
 	};
 
 	return (
 		<div>
-			{plant.settings && (
+			{settings && (
 				<div>
 					<div>
 						<h2>Humidity Check</h2>
 						<input
-							type="numeric"
-							value={plant.settings.humidity.humidity}
-							onChange={handleChange}
+							type="checkbox"
+							checked={settings.humidity.enabled}
+							onChange={(e) =>
+								handleChange(
+									"humidity",
+									"enabled",
+									e.target.checked ? 1 : 0
+								)
+							}
 						/>
 						<input
-							type="checkbox"
-							checked={plant.settings.humidity.enabled}
-							onChange={handleChange}
+							type="numeric"
+							value={settings.humidity.humidity}
+							onChange={(e) =>
+								handleChange(
+									"humidity",
+									"humidity",
+									e.target.value
+								)
+							}
 						/>
 					</div>
 
 					<div>
 						<h2>Interval Watering</h2>
 						<input
-							type="date"
-							value={plant.settings.interval.firstWatering}
-							onChange={handleChange}
-						/>
-						<input
-							type="numeric"
-							value={plant.settings.interval.interval}
-							onChange={handleChange}
-						/>
-						<input
-							type="numeric"
-							value={plant.settings.interval.length}
-							onChange={handleChange}
-						/>
-						<input
 							type="checkbox"
-							checked={plant.settings.interval.enabled}
-							onChange={handleChange}
+							checked={settings.interval.enabled}
+							onChange={(e) =>
+								handleChange(
+									"interval",
+									"enabled",
+									e.target.checked ? 1 : 0
+								)
+							}
+						/>
+						<input
+							type="date"
+							value={settings.interval.firstWatering}
+							onChange={(e) =>
+								handleChange(
+									"interval",
+									"firstWatering",
+									e.target.value
+								)
+							}
+						/>
+						<input
+							type="numeric"
+							value={settings.interval.interval}
+							onChange={(e) =>
+								handleChange(
+									"interval",
+									"interval",
+									e.target.value
+								)
+							}
+						/>
+						<input
+							type="numeric"
+							value={settings.interval.length}
+							onChange={(e) =>
+								handleChange(
+									"interval",
+									"length",
+									e.target.value
+								)
+							}
 						/>
 					</div>
 
-					<button onClick={() => updateSettings(plant.settings)}>
+					<button onClick={() => updateSettings(settings)}>
 						Save
 					</button>
 				</div>

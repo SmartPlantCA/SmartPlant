@@ -19,7 +19,7 @@ function PlantsContext() {
 		return () => clearInterval(interval);
 	}, []);
 
-	const addPlant = async (id, name) => {
+	const registerPlant = async (id, name) => {
 		await fetch(`${process.env.REACT_APP_API_URL}/plants/${id}`, {
 			method: "PUT",
 			headers: {
@@ -32,7 +32,9 @@ function PlantsContext() {
 	};
 
 	return (
-		<div>{plants && <Plants plants={plants} addPlant={addPlant} />}</div>
+		<div>
+			{plants && <Plants plants={plants} registerPlant={registerPlant} />}
+		</div>
 	);
 }
 

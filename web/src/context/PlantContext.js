@@ -4,20 +4,32 @@ import { useState, useEffect } from "react";
 function PlantContext({ plantId }) {
 	const [plant, setPlant] = useState({});
 
-	useEffect(() => {
-		const loadPlant = () => {
-			fetch(`${process.env.REACT_APP_API_URL}/plants/${plantId}`)
-				.then((res) => res.json())
-				.then((data) => setPlant(data));
-		};
+	const loadPlant = async (id) => {
+		await fetch(`${process.env.REACT_APP_API_URL}/plants/${id}`)
+			.then((res) => res.json())
+			.then((data) => setPlant(data));
+	};
 
-		loadPlant();
+	useEffect(() => {
+		loadPlant(plantId);
 
 		const interval = setInterval(() => {
-			loadPlant();
+			loadPlant(plantId);
 		}, 5000);
 		return () => clearInterval(interval);
 	}, [plantId]);
+
+	const updatePlantName = async (name) => {
+		await fetch(`${process.env.REACT_APP_API_URL}/plants/${plantId}`, {
+			method: "PUT",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify({ name }),
+		});
+
+		await loadPlant(plantId);
+	};
 
 	const updateSettings = async (settings) => {
 		setPlant({
@@ -48,7 +60,13 @@ function PlantContext({ plantId }) {
 
 	return (
 		<div>
-			{plant && <Plant plant={plant} updateSettings={updateSettings} />}
+			{plant && (
+				<Plant
+					plant={plant}
+					updateSettings={updateSettings}
+					updatePlantName={updatePlantName}
+				/>
+			)}
 		</div>
 	);
 }

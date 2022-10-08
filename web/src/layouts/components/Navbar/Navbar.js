@@ -2,9 +2,9 @@ import { faCircleInfo, faHouse } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { createRef, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import darksmartplant from "../images/dark_smartplant.png";
-import smartplant from "../images/smartplant.png";
-import DarkModeToggle from "./components/Navbar/DarkModeToggle";
+import darksmartplant from "../../../images/dark_smartplant.png";
+import smartplant from "../../../images/smartplant.png";
+import DarkModeToggle from "./DarkModeToggle";
 
 function Navbar() {
 	let navigate = useNavigate();
@@ -69,7 +69,10 @@ function Navbar() {
 						<FontAwesomeIcon icon={faHouse} size="lg" />
 					</div>
 					<div className="m-5 p-5 text-gray-300">
-						<DarkModeToggle darkMode={darkMode} setDarkMode={setDarkMode} />
+						<DarkModeToggle
+							darkMode={darkMode}
+							setDarkMode={setDarkMode}
+						/>
 					</div>
 					<div className="m-5 p-5 text-gray-300">
 						<FontAwesomeIcon icon={faCircleInfo} />
