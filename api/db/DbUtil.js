@@ -1,5 +1,18 @@
 import sqlite3 from "sqlite3";
-const db = new sqlite3.Database("./db/plant.sqlite");
+import fs from "fs";
+
+const db = new sqlite3.Database(
+	fs.existsSync("/home/plant.sqlite")
+		? "/home/plant.sqlite"
+		: "./db/plant.sqlite"
+);
+
+console.log(
+	"Loading database:",
+	fs.existsSync("/home/plant.sqlite")
+		? "/home/plant.sqlite"
+		: "./db/plant.sqlite"
+);
 
 const setupDb = () => {
 	db.serialize(() => {
