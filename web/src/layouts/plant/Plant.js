@@ -1,25 +1,25 @@
 import { faEdit } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-
-import { AreaChart, Area, Tooltip, ResponsiveContainer } from "recharts";
 import { useState, useEffect } from "react";
-
-import moment from "moment";
 import PlantSettings from "./PlantSettings";
 import Modal from "../../layouts/components/Global/Modal";
+import PlantChart from "./PlantChart";
 
 function Plant({ plant, updateSettings, updatePlantName }) {
 	const [data, setData] = useState([]);
 	let [showModal, setShowModal] = useState(false);
 
 	useEffect(() => {
-		if (plant.humidityHistory !== undefined) {
+		let history = plant.humidityHistory;
+
+		if (history !== undefined) {
+			history.reverse();
 			let newData = [];
 
-			for (let i = 0; i < plant.humidityHistory.length; i += 60) {
-				newData.push(plant.humidityHistory[i]);
-			}
+			for (let i = 0; i < history.length; i += 60)
+				newData.push(history[i]);
 
+			newData.reverse();
 			setData(newData);
 		}
 	}, [plant]);
@@ -53,29 +53,7 @@ function Plant({ plant, updateSettings, updatePlantName }) {
 				/>
 			</div>
 
-			<div className="w-96 h-72">
-				<h2>Humidity</h2>
-				<ResponsiveContainer>
-					<AreaChart
-						data={data}
-						margin={{
-							top: 10,
-							right: 10,
-							left: 10,
-							bottom: 10,
-						}}
-					>
-						<Tooltip content={<CustomTooltip />} />
-						<Area
-							type="monotone"
-							dataKey="value"
-							stroke="#778be9"
-							fill="#dadff9"
-							strokeWidth={2.5}
-						/>
-					</AreaChart>
-				</ResponsiveContainer>
-			</div>
+			<PlantChart name="Humidity" data={data} />
 
 			<PlantSettings
 				plantSettings={plant.settings}
@@ -83,19 +61,6 @@ function Plant({ plant, updateSettings, updatePlantName }) {
 			/>
 		</div>
 	);
-}
-
-function CustomTooltip({ active, payload, label }) {
-	if (active && payload) {
-		return (
-			<div className="bg-white rounded shadow p-4 text-gray-800 text-sm">
-				<p>{moment(payload[0].payload.timestamp).format("LLL")}</p>
-				<p>{payload[0].payload.value}%</p>
-			</div>
-		);
-	}
-
-	return null;
 }
 
 export default Plant;
