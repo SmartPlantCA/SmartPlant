@@ -2,6 +2,7 @@
 #include <ESP8266WiFi.h>
 #include <PubSubClient.h>
 #include <ArduinoUniqueID.h>
+#include <LiquidCrystal_I2C.h>
 
 #define WIFI_SSID "AP_B536"
 #define WIFI_PASSWORD "techinfo"
@@ -15,12 +16,15 @@ unsigned long lastHumidityPush;
 unsigned long lastPumpToggle;
 String ID = "";
 
+LiquidCrystal_I2C lcd(0x27, 20, 40);
+
 void setup_wifi()
 {
   WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
 
   while (WiFi.status() != WL_CONNECTED)
   {
+    Serial.println("no wifi");
     delay(500);
   }
 
@@ -66,6 +70,9 @@ void setup()
 {
   Serial.begin(9600);
 
+  lcd.init();
+  lcd.backlight();
+  
   for (size_t i = 0; i < UniqueIDsize; i++)
   {
     ID += String(UniqueID[i]);
@@ -80,6 +87,7 @@ void setup()
   pinMode(2, OUTPUT); // MOTEUR
 
   pinMode(A0, INPUT); // HUMIDITY
+
 }
 
 void loop()
@@ -96,15 +104,24 @@ void loop()
     }
   }
 
+  int soilMoistureValue = analogRead(A0);
+  int percent = map(soilMoistureValue, 680, 280, 0, 100);
+
   if (millis() - lastHumidityPush >= 60000)
   {
     lastHumidityPush = millis();
-    int soilMoistureValue = analogRead(A0);
-    int percent = map(soilMoistureValue, 680, 280, 0, 100);
+    
 
     String channel = "smartplant/" + ID + "/humidity";
     client.publish(channel.c_str(), String(percent).c_str());
   }
+
+  lcd.setCursor(0, 0);
+  lcd.print("Humidity: ");
+  
+  lcd.setCursor(0, 1);
+  lcd.print(String(percent) + "% ");
+
 
   delay(250);
 }
