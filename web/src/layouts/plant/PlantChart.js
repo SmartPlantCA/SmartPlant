@@ -1,5 +1,5 @@
-import { AreaChart, Area, Tooltip, ResponsiveContainer } from "recharts";
 import moment from "moment";
+import { Area, AreaChart, ResponsiveContainer, Tooltip } from "recharts";
 
 function PlantChart({ name, data }) {
 	return (
@@ -16,13 +16,7 @@ function PlantChart({ name, data }) {
 					}}
 				>
 					<Tooltip content={<CustomTooltip />} />
-					<Area
-						type="monotone"
-						dataKey="value"
-						stroke="#778be9"
-						fill="#dadff9"
-						strokeWidth={2.5}
-					/>
+					<Area type="monotone" dataKey="value" stroke="#778be9" fill="#dadff9" strokeWidth={2.5} />
 				</AreaChart>
 			</ResponsiveContainer>
 		</div>
