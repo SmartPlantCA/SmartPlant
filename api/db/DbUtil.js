@@ -142,6 +142,14 @@ const getPlant = async (id) => {
 	wateringHistory.reverse();
 	plant.wateringHistory = wateringHistory;
 
+	plant.totalWateringMS = 0;
+	wateringHistory.forEach((element) => {
+		plant.totalWateringMS += element.length;
+	});
+
+	let mlPerSecond = 4;
+	plant.totalWateringML = plant.totalWateringMS * (mlPerSecond / 1000);
+
 	return plant;
 };
 
