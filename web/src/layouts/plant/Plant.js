@@ -54,7 +54,7 @@ function Plant({ plant, updateSettings, updatePlantName }) {
 		setOldSettings(newValue);
 
 		clearTimeout(editTimerRef?.current);
-		editTimerRef.current = setTimeout(() => updateSettings(newValue), 1000);
+		editTimerRef.current = setTimeout(() => updateSettings(newValue), 2000);
 	};
 
 	if (!oldSettings) return null;

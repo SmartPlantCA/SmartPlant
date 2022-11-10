@@ -53,9 +53,15 @@ function PlantContext({ plantId }) {
 		);
 
 		if (response.status === 200) {
-			toast.success("Settings successfully saved");
+			toast("Settings successfully saved", {
+				type: "success",
+				autoClose: 2500,
+			});
 		} else {
-			toast.error("Failed to save settings");
+			toast("Failed to save settings", {
+				type: "error",
+				autoClose: 2500,
+			});
 		}
 	};
 
