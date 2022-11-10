@@ -35,7 +35,7 @@ function IntervalSettings({ oldSettings, handleEditSettings }) {
 						<div class="dot absolute left-1 top-1 bg-red-400 w-4 h-4 rounded-full transition"></div>
 					</div>
 					<div class="ml-3 text-gray-700 font-medium">
-						{true ? "On" : "Off"}
+						{oldSettings.interval.enabled ? "On" : "Off"}
 					</div>
 				</label>
 
