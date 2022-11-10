@@ -1,7 +1,7 @@
 import { faGear } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-function HumiditySettings({ oldSettings, handleEditSettings }) {
+function IntervalSettings({ oldSettings, handleEditSettings }) {
 	return (
 		<div className="mt-5 px-7 py-5 bg-white rounded-3xl drop-shadow-2xl border-[1px] border-gray-100 hover:scale-110 duration-500 ease-in-out transition-transform">
 			<h2 className="text-2xl">
@@ -10,22 +10,22 @@ function HumiditySettings({ oldSettings, handleEditSettings }) {
 					className="mr-2 text-blue-500"
 					size="sm"
 				/>
-				Watering Threshold
+				Watering Interval
 			</h2>
 			<div className="w-64 h-52 mt-2">
 				<label
-					for="toggleB"
+					for="toggleC"
 					class="flex items-center cursor-pointer select-none"
 				>
 					<div class="relative">
 						<input
 							type="checkbox"
-							id="toggleB"
+							id="toggleC"
 							class="sr-only"
-							checked={oldSettings.humidity.enabled}
+							checked={oldSettings.interval.enabled}
 							onChange={(e) =>
 								handleEditSettings(
-									"humidity",
+									"interval",
 									"enabled",
 									e.target.checked ? 1 : 0
 								)
@@ -38,14 +38,40 @@ function HumiditySettings({ oldSettings, handleEditSettings }) {
 						{true ? "On" : "Off"}
 					</div>
 				</label>
+
+				<input
+					type="date"
+					defaultValue={
+						new Date(oldSettings.interval.firstWatering)
+							.toISOString()
+							.split("T")[0]
+					}
+					onChange={(e) => {
+						handleEditSettings(
+							"interval",
+							"firstWatering",
+							new Date(e.target.value).getTime()
+						);
+					}}
+				/>
 				<input
 					type="numeric"
-					className="bg-gray-400"
-					defaultValue={oldSettings.humidity.humidity}
+					defaultValue={oldSettings.interval.interval}
 					onChange={(e) =>
 						handleEditSettings(
-							"humidity",
-							"humidity",
+							"interval",
+							"interval",
+							Number(e.target.value)
+						)
+					}
+				/>
+				<input
+					type="numeric"
+					defaultValue={oldSettings.interval.length}
+					onChange={(e) =>
+						handleEditSettings(
+							"interval",
+							"length",
 							Number(e.target.value)
 						)
 					}
@@ -55,4 +81,4 @@ function HumiditySettings({ oldSettings, handleEditSettings }) {
 	);
 }
 
-export default HumiditySettings;
+export default IntervalSettings;

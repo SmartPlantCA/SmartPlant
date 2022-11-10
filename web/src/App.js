@@ -4,6 +4,9 @@ import "./css/index.css";
 import Navbar from "./layouts/components/Navbar/Navbar";
 import InitialTransition from "./layouts/components/Initial/InitialTransition";
 
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 import Error from "./pages/Error";
 import Home from "./pages/Home";
 import Plant from "./pages/Plant";
@@ -22,6 +25,7 @@ function App() {
 
 	return (
 		<div className="dark:bg-dark p-3">
+			<ToastContainer />
 			<div className="font-reem dark:text-white">
 				<Navbar />
 

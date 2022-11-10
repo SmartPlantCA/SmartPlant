@@ -1,13 +1,16 @@
 import { faEdit } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import Modal from "../../layouts/components/Global/Modal";
-import HumiditySettings from "./HumiditySettings";
 import PlantChart from "./PlantChart";
-import PlantSettings from "./PlantSettings";
+import HumiditySettings from "./HumiditySettings";
+import IntervalSettings from "./IntervalSettings";
 
 function Plant({ plant, updateSettings, updatePlantName }) {
-	const [data, setData] = useState([]);
+	const [humidtyData, setHumidtyData] = useState([]);
+	const [oldSettings, setOldSettings] = useState(plant.settings);
+
+	const editTimerRef = useRef(null);
 	const [minimum, setMinimum] = useState([]);
 	let [showModal, setShowModal] = useState(false);
 
@@ -21,31 +24,55 @@ function Plant({ plant, updateSettings, updatePlantName }) {
 
 			for (let i = 0; i < history.length; i += 120) {
 				newData.push(history[i]);
-				if (history[i].value < minimumValue) minimumValue = history[i].value;
+				if (history[i].value < minimumValue)
+					minimumValue = history[i].value;
 			}
 			setMinimum(minimumValue);
 			newData.reverse();
-			setData(newData);
+			setHumidtyData(newData);
 		}
 	}, [plant, updateSettings]);
 
-	const handleEdit = async (text) => {
+	useEffect(() => {
+		if (oldSettings === undefined) setOldSettings(plant.settings);
+	}, [plant, oldSettings]);
+
+	const handleEditName = async (text) => {
 		await updatePlantName(text);
 		setShowModal(false);
 	};
+
+	const handleEditSettings = async (type, target, value) => {
+		let newValue = {
+			...oldSettings,
+			[type]: {
+				...oldSettings[type],
+				[target]: value,
+			},
+		};
+
+		setOldSettings(newValue);
+
+		clearTimeout(editTimerRef?.current);
+		editTimerRef.current = setTimeout(() => updateSettings(newValue), 1000);
+	};
+
+	if (!oldSettings) return null;
 
 	return (
 		<div>
 			<Modal
 				title="Edit plant name"
 				message={"Plant Name"}
-				onClick={handleEdit}
+				onClick={handleEditName}
 				showModal={showModal}
 				onClose={setShowModal}
 			/>
 
 			<div className="flex flex-col items-center">
-				<h1 className="text-4xl font-bold tracking-wide">{plant.name}</h1>
+				<h1 className="text-4xl font-bold tracking-wide">
+					{plant.name}
+				</h1>
 				<FontAwesomeIcon
 					icon={faEdit}
 					size="lg"
@@ -57,11 +84,20 @@ function Plant({ plant, updateSettings, updatePlantName }) {
 			</div>
 
 			<div className="flex gap-5">
-				<PlantChart name="Humidity" data={data} minimum={minimum} />
-				<HumiditySettings oldSettings={plant.settings} updateSettings={updateSettings} />
+				<PlantChart
+					name="Humidity"
+					data={humidtyData}
+					minimum={minimum}
+				/>
+				<HumiditySettings
+					oldSettings={oldSettings}
+					handleEditSettings={handleEditSettings}
+				/>
+				<IntervalSettings
+					oldSettings={oldSettings}
+					handleEditSettings={handleEditSettings}
+				/>
 			</div>
-
-			<PlantSettings oldSettings={plant.settings} updateSettings={updateSettings} />
 		</div>
 	);
 }

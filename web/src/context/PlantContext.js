@@ -1,5 +1,6 @@
 import Plant from "../layouts/plant/Plant";
 import { useState, useEffect } from "react";
+import { toast } from "react-toastify";
 
 function PlantContext({ plantId }) {
 	const [plant, setPlant] = useState({});
@@ -7,7 +8,7 @@ function PlantContext({ plantId }) {
 	const loadPlant = async (id) => {
 		await fetch(`${process.env.REACT_APP_API_URL}/plants/${id}`)
 			.then((res) => res.json())
-			.then((data) => setPlant(data));
+			.then((json) => setPlant(json));
 	};
 
 	useEffect(() => {
@@ -52,9 +53,9 @@ function PlantContext({ plantId }) {
 		);
 
 		if (response.status === 200) {
-			alert("Settings updated");
+			toast.success("Settings successfully saved");
 		} else {
-			alert("Something went wrong");
+			toast.error("Failed to save settings");
 		}
 	};
 
