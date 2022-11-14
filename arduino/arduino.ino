@@ -21,7 +21,7 @@ LiquidCrystal_I2C lcd(0x27, 20, 40);
 void setup_wifi()
 {
   WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
-
+  Serial.println("Connecting to wifi...");
   while (WiFi.status() != WL_CONNECTED)
   {
     Serial.println("no wifi");
