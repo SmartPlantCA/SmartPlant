@@ -1,4 +1,4 @@
-import { faCircleInfo, faHouse } from "@fortawesome/free-solid-svg-icons";
+import { faCircleInfo, faHouse, faVolumeMute, faVolumeUp } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { createRef, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -6,7 +6,7 @@ import darksmartplant from "../../../images/dark_smartplant.png";
 import smartplant from "../../../images/smartplant.png";
 import DarkModeToggle from "./DarkModeToggle";
 
-function Navbar() {
+function Navbar({ mute, invertMuted }) {
 	let navigate = useNavigate();
 
 	const [time, setTime] = useState(0);
@@ -69,10 +69,17 @@ function Navbar() {
 						<FontAwesomeIcon icon={faHouse} size="lg" />
 					</div>
 					<div className="m-5 p-5 text-gray-300">
-						<DarkModeToggle
-							darkMode={darkMode}
-							setDarkMode={setDarkMode}
-						/>
+						<DarkModeToggle darkMode={darkMode} setDarkMode={setDarkMode} />
+					</div>
+					<div
+						className="bg-blue-300 dark:bg-inherit dark:border-2 dark:border-[#d1d1d1] m-5 p-5 w-16 h-16 flex flex-col items-center justify-center rounded-2xl text-white shadow-md navFocus hover:cursor-pointer"
+						onClick={() => invertMuted()}
+					>
+						{mute ? (
+							<FontAwesomeIcon icon={faVolumeMute} size="lg" />
+						) : (
+							<FontAwesomeIcon icon={faVolumeUp} size="lg" />
+						)}
 					</div>
 					<div className="m-5 p-5 text-gray-300">
 						<FontAwesomeIcon icon={faCircleInfo} />
