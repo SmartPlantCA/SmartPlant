@@ -279,7 +279,7 @@ const getPlantsToWater = async () => {
 		if (humidity === undefined) continue;
 
 		if (humidity.value < plant.humidity) {
-			let length = 1000 * 15;
+			let length = 1000 * 5;
 
 			db.run(
 				"INSERT INTO watering (id, timestamp, length) VALUES (?, ?, ?)",
