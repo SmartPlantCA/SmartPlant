@@ -60,12 +60,11 @@ function App() {
 					className="-z-10 fixed top-0 left-0 w-1 h-1 object-cover"
 					ref={playerRef}
 				>
-					{/*<source src="http://192.95.39.65:5607/stream" type="audio/mpeg" />*/}
+					{/*<source src="https://1000christmashits.stream.laut.fm/1000christmashits" type="audio/mpeg" />*/}
 					<source
-						src="https://1000christmashits.stream.laut.fm/1000christmashits"
+						src="http://192.95.39.65:5607/stream"
 						type="audio/mpeg"
 					/>
-					*
 				</video>
 
 				<div className="ml-40 w-auto bg-secondgray/50 dark:bg-dark dark:border-2 dark:border-[#d1d1d1] rounded-3xl p-12 wholePage">
