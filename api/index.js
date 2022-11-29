@@ -21,7 +21,7 @@ app.get("/", (req, res) => {
 });
 
 /* Setup MQTT */
-const mqttClient = mqtt.connect("mqtt://broker.hivemq.com:1883");
+const mqttClient = mqtt.connect("mqtt://mqtt.mqrco.xyz:1883");
 mqttClient.subscribe("smartplant/+/humidity");
 
 mqttClient.on("message", (topic, message) => {

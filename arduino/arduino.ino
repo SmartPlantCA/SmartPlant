@@ -7,7 +7,7 @@
 #define WIFI_SSID "AP_B536"
 #define WIFI_PASSWORD "techinfo"
 
-#define MQTT_SERVER "broker.hivemq.com"
+#define MQTT_SERVER "mqtt.mqrco.xyz"
 #define MQTT_SERVER_PORT 1883
 
 WiFiClient wifiClient;
@@ -20,6 +20,8 @@ LiquidCrystal_I2C lcd(0x27, 20, 40);
 
 void setup_wifi()
 {
+  setScreenMessage("SmartPlant - v1", "Connecting...");
+  
   WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
   Serial.println("Connecting to wifi...");
   while (WiFi.status() != WL_CONNECTED)
@@ -116,12 +118,15 @@ void loop()
     client.publish(channel.c_str(), String(percent).c_str());
   }
 
+  setScreenMessage("Humidity:", String(percent) + "%");
+  
+  delay(250);
+}
+
+void setScreenMessage(String firstLine, String secondLine) {
   lcd.setCursor(0, 0);
-  lcd.print("Humidity: ");
+  lcd.print(firstLine + "                 ");
   
   lcd.setCursor(0, 1);
-  lcd.print(String(percent) + "% ");
-
-
-  delay(250);
+  lcd.print(secondLine + "                 ");
 }
