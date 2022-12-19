@@ -43,7 +43,7 @@ npm run build
 ```
 Le contenu du build `/public` doit être mis dans un environnement apache ou nginx. 
 
-## Montage
+## Schéma Électrique
 
-Insérer image générée sur http://fritzing.org/
+![SCHEMA](https://github.com/SmartPlantCA/SmartPlant/blob/master/schema.png?raw=true)
 
