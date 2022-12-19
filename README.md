@@ -43,7 +43,21 @@ npm run build
 ```
 Le contenu du build `/public` doit être mis dans un environnement apache ou nginx. 
 
+## Impression 3D
+
+Il est possible d'imprimer le boitier ainsi que son réservoir. Dû à sa taille, le tout est découpé en plusieurs petites sections. Les fichiers STL se retrouvent dans le dossier `impression3D`.
+
 ## Schéma Électrique
+
+Afin de reproduire ce projet, vous devez possédez le matériel suivant :
+
+- NodeMCU (doit être compatible Analog)
+- Relai 3V
+- Pompe 3V
+- Écran LCD
+- Capteur d'humidité
+- Breadboard
+- Fils électriques
 
 ![SCHEMA](https://github.com/SmartPlantCA/SmartPlant/blob/master/schema.png?raw=true)
 
