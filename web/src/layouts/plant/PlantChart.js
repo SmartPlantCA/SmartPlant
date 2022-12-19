@@ -3,7 +3,7 @@ import { Area, AreaChart, ResponsiveContainer, Tooltip, YAxis } from "recharts";
 
 function PlantChart({ name, data, minimum }) {
 	return (
-		<div className="mt-5 px-7 py-5 bg-white rounded-3xl drop-shadow-2xl border-[1px] border-gray-100 hover:scale-110 duration-500 ease-in-out transition-transform">
+		<div className="dark:bg-dark mt-5 px-7 py-5 bg-white rounded-3xl drop-shadow-2xl border-[1px] border-gray-100 hover:scale-110 duration-500 ease-in-out transition-transform">
 			<h2 className="text-2xl">{name}</h2>
 			<div className="w-64 h-52">
 				<ResponsiveContainer>
@@ -15,7 +15,11 @@ function PlantChart({ name, data, minimum }) {
 						}}
 					>
 						<Tooltip content={<CustomTooltip />} />
-						<YAxis type="number" domain={[minimum - 5, "dataMax"]} width={25} />
+						<YAxis
+							type="number"
+							domain={[minimum - 5, "dataMax"]}
+							width={25}
+						/>
 						<Area
 							type="monotone"
 							dataKey="value"

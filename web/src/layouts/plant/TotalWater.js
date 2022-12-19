@@ -6,9 +6,13 @@ import CountUp from "react-countup";
 function TotalWater({ plant }) {
 	return (
 		<div>
-			<div className="mt-5 px-7 py-5 bg-white rounded-3xl drop-shadow-2xl border-[1px] border-gray-100 hover:scale-110 duration-500 ease-in-out transition-transform">
+			<div className="dark:bg-dark mt-5 px-7 py-5 bg-white rounded-3xl drop-shadow-2xl border-[1px] border-gray-100 hover:scale-110 duration-500 ease-in-out transition-transform">
 				<h2 className="text-2xl">Total Water Poured</h2>
-				<FontAwesomeIcon icon={faDroplet} className=" text-blue-500 mr-2 mt-2" size="lg" />
+				<FontAwesomeIcon
+					icon={faDroplet}
+					className=" text-blue-500 mr-2 mt-2"
+					size="lg"
+				/>
 				<CountUp
 					end={plant.totalWateringML}
 					delay={0}
@@ -24,9 +28,13 @@ function TotalWater({ plant }) {
 					)}
 				</CountUp>
 			</div>
-			<div className="mt-5 px-7 py-5 bg-white rounded-3xl drop-shadow-2xl border-[1px] border-gray-100 hover:scale-110 duration-500 ease-in-out transition-transform">
+			<div className="dark:bg-dark mt-5 px-7 py-5 bg-white rounded-3xl drop-shadow-2xl border-[1px] border-gray-100 hover:scale-110 duration-500 ease-in-out transition-transform">
 				<h2 className="text-2xl">Saved time watering</h2>
-				<FontAwesomeIcon icon={faClock} className=" text-blue-500 mr-2 mt-2" size="lg" />
+				<FontAwesomeIcon
+					icon={faClock}
+					className=" text-blue-500 mr-2 mt-2"
+					size="lg"
+				/>
 				<CountUp
 					end={plant.totalWateringMS / 1000 / 60 / 60}
 					delay={0}
@@ -49,7 +57,8 @@ function TotalWater({ plant }) {
 }
 
 function areEqual(prevProps, nextProps) {
-	if (prevProps.plant.totalWateringML === nextProps.plant.totalWateringML) return true;
+	if (prevProps.plant.totalWateringML === nextProps.plant.totalWateringML)
+		return true;
 	return false;
 }
 

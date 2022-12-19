@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 function HumiditySettings({ oldSettings, handleEditSettings }) {
 	return (
-		<div className="mt-5 px-7 py-5 bg-white rounded-3xl drop-shadow-2xl border-[1px] border-gray-100 hover:scale-110 duration-500 ease-in-out transition-transform">
+		<div className="dark:bg-dark mt-5 px-7 py-5 bg-white rounded-3xl drop-shadow-2xl border-[1px] border-gray-100 hover:scale-110 duration-500 ease-in-out transition-transform">
 			<h2 className="text-2xl">
 				<FontAwesomeIcon
 					icon={faGear}
@@ -45,7 +45,7 @@ function HumiditySettings({ oldSettings, handleEditSettings }) {
 					</label>
 					<input
 						type="number"
-						className=" rounded-full border-[1px] border-gray-400 px-3 inline-block w-auto"
+						className="dark:bg-dark rounded-full border-[1px] border-gray-400 px-3 inline-block w-auto"
 						defaultValue={oldSettings.humidity.humidity}
 						id="numberPErcentage"
 						onChange={(e) =>

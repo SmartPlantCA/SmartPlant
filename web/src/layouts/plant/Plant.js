@@ -25,7 +25,8 @@ function Plant({ plant, updateSettings, updatePlantName }) {
 
 			for (let i = 0; i < history.length; i += 120) {
 				newData.push(history[i]);
-				if (history[i].value < minimumValue) minimumValue = history[i].value;
+				if (history[i].value < minimumValue)
+					minimumValue = history[i].value;
 			}
 			setMinimum(minimumValue);
 			newData.reverse();
@@ -70,7 +71,9 @@ function Plant({ plant, updateSettings, updatePlantName }) {
 			/>
 
 			<div className="flex flex-col items-center">
-				<h1 className="text-4xl font-bold tracking-wide">{plant.name}</h1>
+				<h1 className="text-4xl font-bold tracking-wide">
+					{plant.name}
+				</h1>
 				<FontAwesomeIcon
 					icon={faEdit}
 					size="lg"
@@ -82,9 +85,19 @@ function Plant({ plant, updateSettings, updatePlantName }) {
 			</div>
 
 			<div className="flex gap-5">
-				<PlantChart name="Humidity" data={humidtyData} minimum={minimum} />
-				<HumiditySettings oldSettings={oldSettings} handleEditSettings={handleEditSettings} />
-				<IntervalSettings oldSettings={oldSettings} handleEditSettings={handleEditSettings} />
+				<PlantChart
+					name="Humidity"
+					data={humidtyData}
+					minimum={minimum}
+				/>
+				<HumiditySettings
+					oldSettings={oldSettings}
+					handleEditSettings={handleEditSettings}
+				/>
+				<IntervalSettings
+					oldSettings={oldSettings}
+					handleEditSettings={handleEditSettings}
+				/>
 				<TotalWater plant={plant}></TotalWater>
 			</div>
 		</div>
