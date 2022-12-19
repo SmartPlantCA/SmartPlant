@@ -147,7 +147,7 @@ const getPlant = async (id) => {
 		plant.totalWateringMS += element.length;
 	});
 
-	let mlPerSecond = 4;
+	let mlPerSecond = 2;
 	plant.totalWateringML = plant.totalWateringMS * (mlPerSecond / 1000);
 
 	return plant;
